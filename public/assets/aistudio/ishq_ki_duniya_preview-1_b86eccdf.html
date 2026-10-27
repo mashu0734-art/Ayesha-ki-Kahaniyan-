@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ishq Ki Duniya</title>
+<style>
+:root {
+  --site-primary: #d94f83;
+  --site-secondary: #ffe2ec;
+  --site-background: #fff7fa;
+  --site-on-primary: #ffffff;
+  --site-on-secondary: #742746;
+  --site-on-background: #482637;
+  --site-font-body: "Noto Nastaliq Urdu", "Noto Sans Arabic", Georgia, serif;
+  --site-font-heading: Georgia, "Noto Sans Arabic", serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --paper: light-dark(#ffffff, #251923);
+  --ink: light-dark(#482637, #fff0f6);
+  --muted: light-dark(#896879, #d6b8c7);
+  --line: light-dark(#f1cbd9, #563747);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font-family: var(--site-font-body); }
+button, input, select { font: inherit; }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; }
+.topbar { background: var(--site-primary); color: var(--site-on-primary); padding: calc(14px * var(--site-spacing-scale)) 18px; }
+.nav { max-width: 1050px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { font-family: var(--site-font-heading); font-size: calc(1.3rem * var(--site-heading-scale)); font-weight: 800; letter-spacing: .2px; }
+.brand span { display: block; font-family: var(--site-font-body); font-size: .76rem; font-weight: 400; opacity: .9; }
+.nav-actions { display: flex; gap: 8px; }
+button { cursor: pointer; border: 0; border-radius: calc(999px * var(--site-radius-scale)); padding: 10px 14px; }
+.nav button { background: #ffffff24; color: white; border: 1px solid #ffffff65; }
+.hero { background: linear-gradient(125deg, #fbd3e1, #fff0f5 60%, #f6bfd3); padding: calc(42px * var(--site-spacing-scale)) 18px; overflow: hidden; position: relative; }
+.hero:after { content:"♡"; position:absolute; right:6%; top:-45px; font-size:230px; color:#e98cac; opacity:calc(.18 * var(--site-decoration-opacity)); pointer-events:none; }
+.hero-inner { max-width: 1050px; margin:auto; position:relative; z-index:1; }
+.eyebrow { color:#a92f61; font-size:.82rem; font-weight:bold; letter-spacing:1.6px; text-transform:uppercase; }
+h1 { font-size:clamp(2rem, 6vw, calc(3.5rem * var(--site-heading-scale))); line-height:1.25; margin:12px 0; color:#6f2444; max-width:700px; }
+.hero p { max-width:560px; line-height:1.9; color:#78465b; margin:0 0 22px; }
+.primary-btn { background:var(--site-primary); color:white; font-weight:700; }
+.secondary-btn { background:#fff; color:#a33160; border:1px solid #efbdd0; }
+.search-wrap { display:flex; gap:8px; max-width:560px; }
+.search-wrap input { flex:1; min-width:0; border:1px solid #efbdd0; border-radius:999px; padding:12px 16px; background:white; color:#482637; outline-color:#d94f83; }
+main { max-width:1050px; margin:auto; padding:30px 18px 54px; }
+.section-head { display:flex; justify-content:space-between; align-items:end; gap:12px; margin-bottom:17px; }
+h2 { font-size:calc(1.55rem * var(--site-heading-scale)); margin:0; color:var(--ink); }
+.section-head p { color:var(--muted); margin:5px 0 0; font-size:.92rem; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 24px; }
+.chip { background:var(--paper); color:var(--muted); border:1px solid var(--line); padding:8px 13px; }
+.chip.active { background:var(--site-secondary); color:var(--site-on-secondary); border-color:#e9a9c2; font-weight:700; }
+.stories { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.story-card { background:var(--paper); border:1px solid var(--line); border-radius:calc(18px * var(--site-radius-scale)); overflow:hidden; transition:transform .18s ease; }
+.story-card:hover { transform:translateY(-3px); }
+.cover { height:142px; display:flex; align-items:center; justify-content:center; font-size:3.4rem; background:linear-gradient(145deg,#ffd9e6,#f6a9c5); overflow:hidden; }\n.cover img { width:100%; height:100%; object-fit:cover; display:block; }
+.cover.rose { background:linear-gradient(145deg,#f7d9e8,#c8b0e8); }
+.cover.night { background:linear-gradient(145deg,#312b55,#b56d9c); }
+.cover.sunset { background:linear-gradient(145deg,#ffdfc7,#e88ca6); }
+.cover.book { background:linear-gradient(145deg,#f9e6d2,#d7a8ae); }
+.cover.flower { background:linear-gradient(145deg,#ffe7ed,#efb8cf); }
+.story-info { padding:15px; }
+.story-info h3 { margin:0 0 7px; font-size:1.1rem; color:var(--ink); }
+.story-info p { color:var(--muted); font-size:.9rem; line-height:1.65; margin:0 0 12px; }
+.meta { display:flex; justify-content:space-between; align-items:center; gap:6px; font-size:.78rem; color:var(--muted); }
+.read-btn { background:var(--site-secondary); color:var(--site-on-secondary); padding:8px 12px; font-size:.82rem; }
+.empty { display:none; color:var(--muted); padding:25px 0; }
+.quote { margin-top:30px; background:var(--site-secondary); color:var(--site-on-secondary); border-radius:calc(18px * var(--site-radius-scale)); padding:24px; text-align:center; line-height:2; }
+.quote strong { display:block; font-size:1.18rem; }
+footer { border-top:1px solid var(--line); padding:22px 18px; text-align:center; color:var(--muted); font-size:.85rem; }
+.modal { display:none; position:fixed; inset:0; z-index:10; background:#28121fc9; padding:18px; align-items:center; justify-content:center; }
+.modal.open { display:flex; }
+.modal-panel { max-width:650px; width:100%; max-height:85vh; overflow:auto; background:var(--paper); color:var(--ink); border-radius:20px; padding:24px; }
+.modal-head { display:flex; justify-content:space-between; align-items:start; gap:12px; }
+.modal-head h2 { font-size:1.5rem; }
+.close { background:var(--site-secondary); color:var(--site-on-secondary); }
+.story-text { line-height:2.15; white-space:pre-line; color:var(--ink); }
+.lang-toggle { display:flex; gap:8px; margin:16px 0; }
+.lang-toggle button { background:var(--site-secondary); color:var(--site-on-secondary); }
+.lang-toggle button.active { background:var(--site-primary); color:white; }
+@media (max-width:700px) {
+ .stories { grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+ .cover { height:115px; font-size:2.8rem; }
+ .story-info { padding:12px; }
+ .story-info h3 { font-size:1rem; }
+ .nav { align-items:flex-start; }
+ .brand { font-size:1.05rem; }
+ .nav-actions button { padding:8px 10px; font-size:.8rem; }
+ .hero { padding:32px 18px; }
+ .section-head { align-items:start; flex-direction:column; }
+}
+@media (max-width:390px) { .stories { grid-template-columns:1fr; } .cover { height:130px; } }
+.story-cover{width:100%;height:170px;object-fit:cover;border-radius:16px 16px 0 0;display:block;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="nav">
+      <div class="brand">♡ Ishq Ki Duniya <span>Har kahani mein ek naya ehsaas</span></div>
+      <div class="nav-actions">
+        <button id="languageTop" onclick="toggleLanguage()">اردو / EN</button>
+        <button onclick="scrollToStories()">Stories ↓</button>
+      </div>
+    </div>
+  </header>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">♡ Mohabbat • Jazbaat • Kahaniyan</div>
+      <h1 id="heroTitle">Dil se dil tak, ishq ki har kahani.</h1>
+      <p id="heroDesc">Ayesha aur Arham ki dil ko chhoo lene wali romantic kahaniyan — bilkul muft, Roman Urdu aur Urdu dono mein.</p>
+      <div class="search-wrap">
+        <input id="search" placeholder="Story ka naam search karein..." aria-label="Search stories">
+        <button class="primary-btn" onclick="filterStories()">Search</button>
+      </div>
+    </div>
+  </section>
+  <main id="storySection">
+    <div class="section-head">
+      <div><h2 id="sectionTitle">Aap ke liye kahaniyan 🌸</h2><p id="sectionDesc">Apni pasand ki kahani chunein aur parhna shuru karein.</p></div>
+      <span style="color:var(--muted);font-size:.85rem">100% Free ♡</span>
+    </div>
+    <div class="chips" id="chips">
+      <button class="chip active" data-cat="all">Sab kahaniyan</button>
+      <button class="chip" data-cat="romance">Romantic</button>
+      <button class="chip" data-cat="sad">Sad Love</button>
+      <button class="chip" data-cat="first">Pehla Pyar</button>
+    </div>
+    <div class="stories" id="stories"></div>
+    <div class="empty" id="empty">Koi kahani nahi mili. Doosra naam search karein. ♡</div>
+    <div class="quote"><strong>“Mohabbat lafzon ki mohtaaj nahi hoti…”</strong><span>kabhi ek nazar, kabhi ek khamoshi sab keh deti hai. 💗</span></div>
+  </main>
+  <footer>♡ Ishq Ki Duniya — Dil se likhi, dil ke liye kahaniyan. <br>10 mukammal romantic kahaniyan — Ayesha aur Arham ke naam.</footer>
+</div>
+<div class="modal" id="reader" role="dialog" aria-modal="true" aria-labelledby="readerTitle" onclick="if(event.target===this)closeReader()">
+  <div class="modal-panel">
+    <div class="modal-head"><div><h2 id="readerTitle">Story title</h2><p id="readerTag" style="color:var(--muted);margin-top:6px"></p></div><button class="close" onclick="closeReader()">Band karein ✕</button></div>
+    <div class="lang-toggle"><button id="romanBtn" class="active" onclick="setLang('roman')">Roman Urdu</button><button id="urduBtn" onclick="setLang('urdu')">اردو</button></div>
+    <div class="story-text" id="storyText"></div>
+  </div>
+</div>
+<script>
+const stories = [
+ {id:1,
+      image: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=900&q=85',title:"Tum Mere Ho",cat:"romance",emoji:"🌹",cover:"",tag:"Romantic • Short Story",
+ roman:"Ayesha ko hamesha lagta tha ke mohabbat sirf kitabon mein hoti hai. Phir ek din library mein uski mulaqat Arham se hui. Arham ne uski kitab uthate hue muskurakar kaha, “Shayad yeh kahani aap se zyada mujhe pasand aa gayi hai.”\n\nAyesha hans pari. Us chhoti si mulaqat ke baad roz ek nayi baat, ek nayi muskurahat unke darmiyan jagah banane lagi.\n\nEk shaam Arham ne kaha, “Main wada nahi karta ke har din aasaan hoga, bas itna ke har mushkil mein tumhara saath dunga.” Ayesha ne uska haath thaam liya. Kabhi kabhi mohabbat ka sab se khoobsurat izhar bas saath nibhana hota hai.",
+ urdu:"عائشہ کو ہمیشہ لگتا تھا کہ محبت صرف کتابوں میں ہوتی ہے۔ پھر ایک دن لائبریری میں اس کی ملاقات ارحم سے ہوئی۔ ارحم نے اس کی کتاب اٹھاتے ہوئے مسکرا کر کہا، ”شاید یہ کہانی آپ سے زیادہ مجھے پسند آ گئی ہے۔“\n\nعائشہ ہنس پڑی۔ اس چھوٹی سی ملاقات کے بعد روز ایک نئی بات، ایک نئی مسکراہٹ ان کے درمیان جگہ بنانے لگی۔\n\nایک شام ارحم نے کہا، ”میں وعدہ نہیں کرتا کہ ہر دن آسان ہوگا، بس اتنا کہ ہر مشکل میں تمہارا ساتھ دوں گا۔“ عائشہ نے اس کا ہاتھ تھام لیا۔ کبھی کبھی محبت کا سب سے خوبصورت اظہار بس ساتھ نبھانا ہوتا ہے۔"},
+ {id:2,
+      image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=900&q=85',title:"Adhoori Si Mohabbat",cat:"sad",emoji:"🌙",cover:"night",tag:"Sad Love • Emotional",
+ roman:"Ayesha har shaam usi purane darakht ke neeche aati thi jahan kabhi Arham ne us se kaha tha, “Main laut kar zaroor aaunga.” Mausam badalte rahe, patte girte aur phir ugte rahe, magar Arham na aaya.\n\nEk din Ayesha ko uski kitab mein ek purana khat mila: “Agar kabhi main door ho jaun, to apni zindagi rok mat dena. Tumhari muskurahat meri sab se pyari yaad hai.”\n\nAyesha ki aankhon mein aansu thay, magar honton par halki si muskurahat bhi. Kuch mohabbatein mil kar mukammal nahi hotin; woh humein khud se mohabbat karna sikha jati hain.",
+ urdu:"عائشہ ہر شام اسی پرانے درخت کے نیچے آتی تھی جہاں کبھی ارحم نے اس سے کہا تھا، ”میں لوٹ کر ضرور آؤں گا۔“ موسم بدلتے رہے، پتے گرتے اور پھر اُگتے رہے، مگر ارحم نہ آیا۔\n\nایک دن عائشہ کو اس کی کتاب میں ایک پرانا خط ملا: ”اگر کبھی میں دور ہو جاؤں، تو اپنی زندگی روک مت دینا۔ تمہاری مسکراہٹ میری سب سے پیاری یاد ہے۔“\n\nعائشہ کی آنکھوں میں آنسو تھے، مگر ہونٹوں پر ہلکی سی مسکراہٹ بھی۔ کچھ محبتیں مل کر مکمل نہیں ہوتیں؛ وہ ہمیں خود سے محبت کرنا سکھا جاتی ہیں۔"},
+ {id:3,
+      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85',title:"Pehli Baarish, Pehla Pyar",cat:"first",emoji:"🌧️",cover:"sunset",tag:"First Love • Sweet",
+ roman:"Us din achanak baarish shuru ho gayi. Ayesha bus stop par khari thi jab Arham ne apni chhatri uski taraf barha di. “Aap bheeg jayengi,” usne kaha.\n\n“Phir aap?” Ayesha ne poocha.\n\nArham muskura diya. “Kuch baarishein yaadgar banane ke liye hoti hain.”\n\nDono ek hi chhatri ke neeche ghar ki taraf chale. Raaste bhar chhoti chhoti baatein hoti rahin. Kuch mahine baad jab Arham ne pehli baar apne dil ki baat kahi, Ayesha ne hans kar jawab diya, “Mujhe usi din pata chal gaya tha—jab aap khud bheeg rahe thay.”",
+ urdu:"اس دن اچانک بارش شروع ہو گئی۔ عائشہ بس اسٹاپ پر کھڑی تھی جب ارحم نے اپنی چھتری اس کی طرف بڑھا دی۔ ”آپ بھیگ جائیں گی،“ اس نے کہا۔\n\n”پھر آپ؟“ عائشہ نے پوچھا۔\n\nارحم مسکرا دیا۔ ”کچھ بارشیں یادگار بنانے کے لیے ہوتی ہیں۔“\n\nدونوں ایک ہی چھتری کے نیچے گھر کی طرف چلے۔ راستے بھر چھوٹی چھوٹی باتیں ہوتی رہیں۔ کچھ ماہ بعد جب ارحم نے پہلی بار اپنے دل کی بات کہی، عائشہ نے ہنس کر جواب دیا، ”مجھے اسی دن پتا چل گیا تھا—جب آپ خود بھیگ رہے تھے۔“"},
+ {id:4,
+      image: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=85',title:"Chand Aur Tum",cat:"romance",emoji:"🌙",cover:"rose",tag:"Romantic • Dreamy",
+ roman:"Raat ke waqt Ayesha chhat par baith kar chand dekha karti thi. Uska dost Arham har raat usay ek hi sawal bhejta: “Aaj chand kaisa hai?”\n\nAyesha tasveer bhej deti aur likhti, “Khoobsurat, magar door.”\n\nEk raat Arham ne jawab diya, “Kuch cheezein door reh kar bhi dil ke bohat qareeb hoti hain.” Ayesha ne pehli baar mehsoos kiya ke shayad woh chand ki nahi, us shakhs ki baat kar raha tha jo har raat uske khayalon mein aa jata tha.",
+ urdu:"رات کے وقت عائشہ چھت پر بیٹھ کر چاند دیکھا کرتی تھی۔ اس کا دوست ارحم ہر رات اسے ایک ہی سوال بھیجتا: ”آج چاند کیسا ہے؟“\n\nعائشہ تصویر بھیج دیتی اور لکھتی، ”خوبصورت، مگر دور۔“\n\nایک رات ارحم نے جواب دیا، ”کچھ چیزیں دور رہ کر بھی دل کے بہت قریب ہوتی ہیں۔“ عائشہ نے پہلی بار محسوس کیا کہ شاید وہ چاند کی نہیں، اس شخص کی بات کر رہا تھا جو ہر رات اس کے خیالوں میں آ جاتا تھا۔"},
+ {id:5,
+      image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=900&q=85',title:"Ek Khat Tumhare Naam",cat:"sad",emoji:"💌",cover:"book",tag:"Letters • Heartfelt",
+ roman:"“Dear Arham, main nahi jaanti yeh khat tum tak pohnchega ya nahi. Bas itna jaanti hoon ke tumhare saath guzre lamhon ne mujhe behtar insaan banaya.”\n\nAyesha ne khat mor kar diary mein rakh diya. Woh ab intezar mein apni zindagi nahi guzarna chahti thi. Usne naye sapne likhe, apni pasand ki kitaabein khareedein aur doston ke saath hansna dobara seekha.\n\nSaalon baad usay samajh aaya: kuch khat doosron ko bhejne ke liye nahi, apne dil ko azaad karne ke liye likhe jate hain.",
+ urdu:"”ارحم کے نام، میں نہیں جانتی یہ خط تم تک پہنچے گا یا نہیں۔ بس اتنا جانتی ہوں کہ تمہارے ساتھ گزرے لمحوں نے مجھے بہتر انسان بنایا۔“\n\nعائشہ نے خط موڑ کر ڈائری میں رکھ دیا۔ وہ اب انتظار میں اپنی زندگی نہیں گزارنا چاہتی تھی۔ اس نے نئے خواب لکھے، اپنی پسند کی کتابیں خریدیں اور دوستوں کے ساتھ ہنسنا دوبارہ سیکھا۔\n\nسالوں بعد اسے سمجھ آیا: کچھ خط دوسروں کو بھیجنے کے لیے نہیں، اپنے دل کو آزاد کرنے کے لیے لکھے جاتے ہیں۔"},
+ {id:6,
+      image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=900&q=85',title:"Dil Ki Dhadkan",cat:"first",emoji:"💗",cover:"flower",tag:"First Love • Cute",
+ roman:"Ayesha ko class mein hamesha aakhri bench pasand thi. Lekin jab naya student, Arham, uske paas baithne laga to uski pasand badal gayi.\n\nArham uske notes saaf likh deta, mushkil sawal samjha deta aur har test se pehle kehta, “Tum kar logi.”\n\nAakhri din Ayesha ko uski kitab mein ek parchi mili: “Tumhari kamyabi dekh kar mujhe apni khushi milti hai. Shayad isi ko pasand karna kehte hain.” Ayesha ne palat kar dekha—Arham darwaze par khara muskurata raha.",
+ urdu:"عائشہ کو کلاس میں ہمیشہ آخری بینچ پسند تھی۔ لیکن جب نیا طالب علم، ارحم، اس کے پاس بیٹھنے لگا تو اس کی پسند بدل گئی۔\n\nارحم اس کے نوٹس صاف لکھ دیتا، مشکل سوال سمجھا دیتا اور ہر ٹیسٹ سے پہلے کہتا، ”تم کر لو گی۔“\n\nآخری دن عائشہ کو اس کی کتاب میں ایک پرچی ملی: ”تمہاری کامیابی دیکھ کر مجھے اپنی خوشی ملتی ہے۔ شاید اسی کو پسند کرنا کہتے ہیں۔“ عائشہ نے پلٹ کر دیکھا—ارحم دروازے پر کھڑا مسکراتا رہا۔"},
+{id:7,image:"https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=900&q=85",title:"Woh Jo Qareeb Tha",cat:"romance",emoji:"💞",cover:"rose",tag:"Romantic • Emotional",
+ roman:"Ayesha aur Arham ki dosti ek chhoti si coffee shop se shuru hui thi. Ayesha roz apni diary lekar khirki ke paas baithti, aur Arham hamesha uske liye bina poochhe hot chocolate mangwa deta. Dono ke darmiyan baatein kam aur samajh zyada thi.\n\nEk din Ayesha pareshan thi. Uska interview achha nahi gaya tha aur woh khud ko nakaam samajh rahi thi. Arham ne uski diary band kar ke kaha, “Ek din kharab ho sakta hai, Ayesha. Tumhari qeemat nahi.” Uski baat sun kar Ayesha ki aankhon mein aansu aa gaye.\n\nKuch hafton baad Ayesha ko apni pasand ki job mil gayi. Sab se pehle usne Arham ko khabar di. Arham ne muskurate hue kaha, “Mujhe pehle se yaqeen tha.” Ayesha ne uska haath thaam kar kaha, “Mujhe bhi, kyun ke tum hamesha mere saath kharay rahe.” Us din dono ko samajh aaya ke sachchi mohabbat sirf dil nahi jeetti, himmat bhi deti hai.",
+ urdu:"عائشہ اور ارحم کی دوستی ایک چھوٹے سے کافی شاپ سے شروع ہوئی تھی۔ عائشہ روز اپنی ڈائری لے کر کھڑکی کے پاس بیٹھتی، اور ارحم ہمیشہ اس کے لیے بغیر پوچھے ہاٹ چاکلیٹ منگوا دیتا۔ دونوں کے درمیان باتیں کم اور سمجھ زیادہ تھی۔\n\nایک دن عائشہ پریشان تھی۔ اس کا انٹرویو اچھا نہیں گیا تھا اور وہ خود کو ناکام سمجھ رہی تھی۔ ارحم نے اس کی ڈائری بند کر کے کہا، ”ایک دن خراب ہو سکتا ہے، عائشہ۔ تمہاری قدر نہیں۔“ اس کی بات سن کر عائشہ کی آنکھوں میں آنسو آ گئے۔\n\nکچھ ہفتوں بعد عائشہ کو اپنی پسند کی نوکری مل گئی۔ سب سے پہلے اس نے ارحم کو خبر دی۔ ارحم نے مسکراتے ہوئے کہا، ”مجھے پہلے سے یقین تھا۔“ عائشہ نے اس کا ہاتھ تھام کر کہا، ”مجھے بھی، کیونکہ تم ہمیشہ میرے ساتھ کھڑے رہے۔“ اس دن دونوں کو سمجھ آیا کہ سچی محبت صرف دل نہیں جیتتی، ہمت بھی دیتی ہے۔"},
+ {id:8,image:"https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=900&q=85",title:"Gulab Ka Wada",cat:"first",emoji:"🌹",cover:"flower",tag:"First Love • Sweet",
+ roman:"Arham ne Ayesha ko pehli baar university ke garden mein dekha tha. Woh gulabon ke paudon ko pani de rahi thi aur har murjhaye phool ko ehtiyat se alag kar rahi thi. Arham ne mazaaq mein poocha, “Aap phoolon se bhi itni mohabbat karti hain?” Ayesha boli, “Jo cheez khoobsurat ho, uska khayal rakhna chahiye.”\n\nUske baad Arham aksar garden aane laga. Kabhi woh paudon ke liye mitti lata, kabhi Ayesha ki kitaabein utha leta. Dheere dheere dono ki dosti gehri hoti gayi, lekin Arham apne dil ki baat kehne se darta tha.\n\nAakhri semester ke din usne Ayesha ko ek gulab diya. “Main wada nahi karta ke zindagi hamesha gulab jaisi hogi,” usne kaha, “magar kaanton wale dinon mein bhi tumhara saath nahi chhorunga.” Ayesha ne gulab apni kitab mein rakh liya. “Phir yeh wada hum dono ka hua.”",
+ urdu:"ارحم نے عائشہ کو پہلی بار یونیورسٹی کے باغ میں دیکھا تھا۔ وہ گلابوں کے پودوں کو پانی دے رہی تھی اور ہر مرجھائے پھول کو احتیاط سے الگ کر رہی تھی۔ ارحم نے مذاق میں پوچھا، ”آپ پھولوں سے بھی اتنی محبت کرتی ہیں؟“ عائشہ بولی، ”جو چیز خوبصورت ہو، اس کا خیال رکھنا چاہیے۔“\n\nاس کے بعد ارحم اکثر باغ آنے لگا۔ کبھی وہ پودوں کے لیے مٹی لاتا، کبھی عائشہ کی کتابیں اٹھا لیتا۔ آہستہ آہستہ دونوں کی دوستی گہری ہوتی گئی، لیکن ارحم اپنے دل کی بات کہنے سے ڈرتا تھا۔\n\nآخری سمسٹر کے دن اس نے عائشہ کو ایک گلاب دیا۔ ”میں وعدہ نہیں کرتا کہ زندگی ہمیشہ گلاب جیسی ہوگی،“ اس نے کہا، ”مگر کانٹوں والے دنوں میں بھی تمہارا ساتھ نہیں چھوڑوں گا۔“ عائشہ نے گلاب اپنی کتاب میں رکھ لیا۔ ”پھر یہ وعدہ ہم دونوں کا ہوا۔"},
+ {id:9,image:"https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=85",title:"Faaslon Ke Paar",cat:"sad",emoji:"🌅",cover:"sunset",tag:"Long Distance • Heartfelt",
+ roman:"Arham ko kaam ke silsile mein doosre shehar jana pada. Ayesha ne station par muskurate hue usay rukhsat kiya, lekin train nazron se ojhal hui to uski aankhen bhar aayin. Dono ne faisla kiya ke chahe din kitna bhi masroof ho, raat ko ek doosre se zaroor baat karenge.\n\nShuru mein har raat lambi calls hoti thin. Phir kaam, thakan aur waqt ki kami darmiyan aane lagi. Ek raat Ayesha ne gusse mein keh diya, “Shayad faaslay tumhare liye aasaan hain.” Arham khamosh ho gaya, kyun ke woh bhi uski kami se roz guzarta tha.\n\nAgli subah Ayesha ko ek voice note mila. Arham ne kaha, “Main door hoon, beparwah nahi. Main chahta hoon ke jab wapas aaun to tumhare saath aisi zindagi bana sakun jahan tumhein akela mehsoos na ho.” Ayesha ne bhi apni baat samjhai. Dono ne waqt nikalna seekha, shikayat ke bajaye sach bolna seekha. Jab Arham lauta, station par unki muskurahatein bata rahi thin ke faaslay mohabbat ko kam nahi kar sake.",
+ urdu:"ارحم کو کام کے سلسلے میں دوسرے شہر جانا پڑا۔ عائشہ نے اسٹیشن پر مسکراتے ہوئے اسے رخصت کیا، لیکن ٹرین نظروں سے اوجھل ہوئی تو اس کی آنکھیں بھر آئیں۔ دونوں نے فیصلہ کیا کہ چاہے دن کتنا بھی مصروف ہو، رات کو ایک دوسرے سے ضرور بات کریں گے۔\n\nشروع میں ہر رات لمبی کالز ہوتی تھیں۔ پھر کام، تھکن اور وقت کی کمی درمیان آنے لگی۔ ایک رات عائشہ نے غصے میں کہہ دیا، ”شاید فاصلے تمہارے لیے آسان ہیں۔“ ارحم خاموش ہو گیا، کیونکہ وہ بھی اس کی کمی سے روز گزرتا تھا۔\n\nاگلی صبح عائشہ کو ایک وائس نوٹ ملا۔ ارحم نے کہا، ”میں دور ہوں، بے پروا نہیں۔ میں چاہتا ہوں کہ جب واپس آؤں تو تمہارے ساتھ ایسی زندگی بنا سکوں جہاں تمہیں اکیلا محسوس نہ ہو۔“ عائشہ نے بھی اپنی بات سمجھائی۔ دونوں نے وقت نکالنا سیکھا، شکایت کے بجائے سچ بولنا سیکھا۔ جب ارحم لوٹا، اسٹیشن پر ان کی مسکراہٹیں بتا رہی تھیں کہ فاصلے محبت کو کم نہیں کر سکے۔"},
+ {id:10,image:"https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=900&q=85",title:"Hamesha Tumhara",cat:"romance",emoji:"💗",cover:"book",tag:"Romantic • Happy Ending",
+ roman:"Ayesha aur Arham ne apni zindagi ke kai mausam saath dekhe thay. Unki mohabbat kisi film jaisi nahi thi; kabhi bills ki fikr, kabhi ghar ke kaam, kabhi chhoti si narazgi. Magar har raat sone se pehle dono ek doosre se poochte, “Aaj tumhara din kaisa tha?”\n\nEk din Ayesha ko laga ke rozmarrah ki masroofiyat mein unki pehli wali romaniyat kahin kho gayi hai. Arham ne uski baat suni aur agle jumay ko dono ke liye ek chhota sa surprise rakha: wohi purani coffee shop, wohi khirki wali mez aur do garam cups.\n\nMez par ek lifafa tha. Andar Arham ka khat tha: “Ayesha, main tumse sirf un dinon mein mohabbat nahi karta jab tum hasti ho. Main tumse un dinon mein bhi mohabbat karta hoon jab tum thak jati ho, pareshan hoti ho ya khamosh rehti ho. Main har naye din tumhein dobara chunna chahta hoon.” Ayesha ne khat se nazar uthai aur usay gale laga liya. Unki kahani ka khubsurat raaz yahi tha: hamesha ka wada roz ke chhote chhote faislon se poora hota hai.",
+ urdu:"عائشہ اور ارحم نے اپنی زندگی کے کئی موسم ساتھ دیکھے تھے۔ ان کی محبت کسی فلم جیسی نہیں تھی؛ کبھی بلوں کی فکر، کبھی گھر کے کام، کبھی چھوٹی سی ناراضی۔ مگر ہر رات سونے سے پہلے دونوں ایک دوسرے سے پوچھتے، ”آج تمہارا دن کیسا تھا؟“\n\nایک دن عائشہ کو لگا کہ روزمرہ کی مصروفیت میں ان کی پہلی والی رومانویت کہیں کھو گئی ہے۔ ارحم نے اس کی بات سنی اور اگلے جمعے کو دونوں کے لیے ایک چھوٹا سا سرپرائز رکھا: وہی پرانا کافی شاپ، وہی کھڑکی والی میز اور دو گرم کپ۔\n\nمیز پر ایک لفافہ تھا۔ اندر ارحم کا خط تھا: ”عائشہ، میں تم سے صرف ان دنوں میں محبت نہیں کرتا جب تم ہنستی ہو۔ میں تم سے ان دنوں میں بھی محبت کرتا ہوں جب تم تھک جاتی ہو، پریشان ہوتی ہو یا خاموش رہتی ہو۔ میں ہر نئے دن تمہیں دوبارہ چننا چاہتا ہوں۔“ عائشہ نے خط سے نظر اٹھائی اور اسے گلے لگا لیا۔ ان کی کہانی کا خوبصورت راز یہی تھا: ہمیشہ کا وعدہ روز کے چھوٹے چھوٹے فیصلوں سے پورا ہوتا ہے۔"}
+];
+let currentCat = "all", currentStory = null, currentLang = "roman";
+const catNames = {all:"Sab kahaniyan",romance:"Romantic",sad:"Sad Love",first:"Pehla Pyar"};
+function renderStories() {
+ const q = document.getElementById("search").value.trim().toLowerCase();
+ const filtered = stories.filter(s => (currentCat==="all" || s.cat===currentCat) && (s.title.toLowerCase().includes(q) || s.roman.toLowerCase().includes(q) || s.tag.toLowerCase().includes(q)));
+ const host = document.getElementById("stories");
+ host.innerHTML = "";
+ filtered.forEach(s => {
+   const card = document.createElement("article");
+   card.className = "story-card";
+   card.innerHTML = `<div class="cover ${s.cover||""}">${s.image ? `<img src="${s.image}" alt="${s.title} — Ayesha aur Arham ki kahani" loading="lazy">` : s.emoji}</div><div class="story-info"><h3>${s.title}</h3><p>${s.roman.slice(0,92)}...</p><div class="meta"><span>${s.tag}</span><button class="read-btn" data-id="${s.id}">Parhein ♡</button></div></div>`;
+   host.appendChild(card);
+ });
+ host.querySelectorAll("[data-id]").forEach(btn=>btn.addEventListener("click",()=>openReader(Number(btn.dataset.id))));
+ document.getElementById("empty").style.display = filtered.length ? "none" : "block";
+}
+function filterStories(){renderStories();}
+function scrollToStories(){document.getElementById("storySection").scrollIntoView({behavior:"smooth"});}
+function openReader(id) {
+ currentStory=stories.find(s=>s.id===id);
+ document.getElementById("readerTitle").textContent=currentStory.title;
+ document.getElementById("readerTag").textContent=currentStory.tag;
+ document.getElementById("reader").classList.add("open");
+ setLang(currentLang);
+}
+function closeReader(){document.getElementById("reader").classList.remove("open");}
+function setLang(lang){
+ currentLang=lang;
+ document.getElementById("romanBtn").classList.toggle("active",lang==="roman");
+ document.getElementById("urduBtn").classList.toggle("active",lang==="urdu");
+ if(currentStory){const t=document.getElementById("storyText");t.textContent=currentStory[lang];t.dir=lang==="urdu"?"rtl":"ltr";t.style.textAlign=lang==="urdu"?"right":"left";}
+}
+function toggleLanguage(){
+ const isUrdu=currentLang==="roman";
+ setLang(isUrdu?"urdu":"roman");
+ document.getElementById("heroTitle").textContent=isUrdu?"دل سے دل تک، عشق کی ہر کہانی۔":"Dil se dil tak, ishq ki har kahani.";
+ document.getElementById("heroDesc").textContent=isUrdu?"عائشہ اور ارحم کی دل کو چھو لینے والی رومانوی کہانیاں — بالکل مفت، اردو اور رومن اردو میں۔":"Ayesha aur Arham ki dil ko chhoo lene wali romantic kahaniyan — bilkul muft, Roman Urdu aur Urdu dono mein.";
+ document.getElementById("sectionTitle").textContent=isUrdu?"آپ کے لیے کہانیاں 🌸":"Aap ke liye kahaniyan 🌸";
+}
+document.querySelectorAll(".chip").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".chip").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");currentCat=btn.dataset.cat;renderStories();
+}));
+document.getElementById("search").addEventListener("input",renderStories);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeReader();});
+renderStories();
+</script>
+</body>
+</html>

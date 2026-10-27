@@ -1,0 +1,6 @@
+{
+  "name": "Ayesha Ki Kahaniyan",
+  "description": "Ayesha aur Arham ki dil ko chhoo lene wali romantic aur jazbaati kahaniyan — Roman Urdu aur Urdu mein.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

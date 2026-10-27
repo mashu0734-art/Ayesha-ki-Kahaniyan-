@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --site-primary: #d94f83;
+    --site-secondary: #ffe2ec;
+    --site-background: #fff7fa;
+    --site-on-primary: #ffffff;
+    --site-on-secondary: #742746;
+    --site-on-background: #482637;
+    --paper: #ffffff;
+    --ink: #482637;
+    --muted: #896879;
+    --line: #f1cbd9;
+  }
+
+  body {
+    background-color: var(--site-background);
+    color: var(--site-on-background);
+    font-family: 'Outfit', 'Noto Nastaliq Urdu', Georgia, serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.font-urdu {
+  font-family: 'Noto Nastaliq Urdu', serif;
+  line-height: 2.3 !important;
+}
+
+.font-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Custom scrollbar for reader modal */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #fce8f0;
+}
+::-webkit-scrollbar-thumb {
+  background: #e491b1;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d94f83;
+}
